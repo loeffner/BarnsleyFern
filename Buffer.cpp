@@ -21,7 +21,7 @@ template <class T> void Buffer<T>::push(T elem)
     hasData.notify_one();
 }
 
-template <class T> void Buffer<T>::push(T elem[], size_t size)
+template <class T> void Buffer<T>::push_batch(T elem[], size_t size)
 {
         // Lambda function which checks for free space,
         // true or false determines whether wait() finishes

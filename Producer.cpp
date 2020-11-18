@@ -19,7 +19,7 @@ template <class T> bool Producer<T>::step()
     {
         done = produce(datapoint[i]);
     }
-    m_buffer.push(datapoint, PACKET_SIZE);
+    m_buffer.push_batch(datapoint, PACKET_SIZE);
     return done;
 }
 
