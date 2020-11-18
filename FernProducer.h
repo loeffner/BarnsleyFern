@@ -17,10 +17,9 @@ class FernProducer : public Producer<Point>
     public:
      FernProducer(Buffer<Point>& buffer, unsigned int id);
      ~FernProducer();
-    protected:
+    private:
      bool produce(Point& datapoint);
      Point m_current;
-    private:
      unsigned int m_id;
      std::random_device rand_gen;
      std::discrete_distribution<> dist;
