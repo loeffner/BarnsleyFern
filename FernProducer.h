@@ -4,10 +4,11 @@
 #include <random>
 #include <map>
 #include <atomic>
+#include <vector>
 #include "Producer.h"
 #include "Point.h"
 
-#define MAX_POINTS 1000000000
+#define MAX_POINTS 100000000
 
 /*
  * Hier findet die tatsaechliche Berechnung der Daten statt
@@ -15,17 +16,17 @@
 class FernProducer : public Producer<Point>
 {
     public:
-     FernProducer(Buffer<Point>& buffer, unsigned int id);
+     FernProducer(Buffer<Point>& buffer);
      ~FernProducer();
     private:
-     bool produce(Point& datapoint);
      Point m_current;
-     unsigned int m_id;
      std::random_device rand_gen;
-     std::discrete_distribution<> dist;
+     std::discrete_distribution<unsigned int> dist;
      static std::atomic<unsigned int> m_nr_points;
-     static const float m_prob[4];
+     static const std::vector<unsigned int> m_prob;
      static const float m_params[4][6];
+     static std::mutex cnt_mutex;
+     bool produce(Point& datapoint);
 
 };
 

@@ -9,26 +9,21 @@
 #include "FernConsumer.h"
 #include "FernConsumer.cpp"
 
-#define NR_PRODUCER 3
-#define NR_CONSUMER 5
+#define NR_PRODUCER 6
+#define NR_CONSUMER 4
 
 int main(void)
 {
-    time_t start = time(0);
-
-    Buffer<Point> buffer(10);
-
+    // FiFo Buffer
+    Buffer<Point> buffer(10000);
 
     // All our Producers
     std::vector<FernProducer*> producers;
     for (int i=0; i < NR_PRODUCER; ++i)
     {
-        FernProducer *p = new FernProducer(buffer, i);
+        FernProducer *p = new FernProducer(buffer);
         producers.push_back(p);
     }
-
-    // Start producing
-    for (auto &p : producers) p->start();
 
     // All our Consumers
     std::vector<FernConsumer*> consumers;
@@ -38,9 +33,12 @@ int main(void)
         consumers.push_back(c);
     }
 
-    // Start producing
-    for (auto &c : consumers) c->start();
 
+    // Start producing
+    for (auto &p : producers) p->start();
+
+    // Start consuming
+    for (auto &c : consumers) c->start();
 
 
     // Clean up producers
@@ -48,9 +46,6 @@ int main(void)
 
     // Clean up consumers
     for (auto &c : consumers) delete c;
-    
-    time_t end = time(0);
-    std::cout << "Runtime: "  << difftime(end, start) * 1000.0 << std::endl;
 
-return 0;
+    return 0;
 }

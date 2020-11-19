@@ -14,9 +14,9 @@
 
 #define IMG_PATH "Fern.png"
 
-#define WIDTH 10000
+#define WIDTH 10000 
 #define HEIGHT 20000
-#define MUTEX_CNT 100
+#define MUTEX_CNT 1000
 
 #define X_MIN -2.2
 #define X_MAX 2.7
@@ -31,16 +31,15 @@ class FernConsumer: public Consumer<Point> {
      FernConsumer(Buffer<Point>& buffer);
      ~FernConsumer();
      void save();
-    protected:
-     bool consume(Point& datapoint);
+    private:
      static std::mutex mutexes[MUTEX_CNT];
      static std::mutex save_mutex;
-    private:
      static cimg_library::CImg<unsigned char> m_image;
      Buffer<Point> m_buffer;    
      static bool saved;
      float m_x_step, m_y_step;
      int m_x_offset, m_y_offset;
+     bool consume(Point& datapoint);
      void convert(Point& datapoint);
 };
 

@@ -27,18 +27,16 @@ FernConsumer::~FernConsumer()
         std::lock_guard<std::mutex> lock(save_mutex);
         if(!saved)
         {
+            std::cout << "Saving Picture" << std::endl;
             m_image.save_png(IMG_PATH);
             saved = true;
         }
     }
     stop(false);
 }
-/* 
- * Generieren der Punkte
- */
+/* Generieren der Punkte */
 bool FernConsumer::consume(Point& datapoint)
 {
-    unsigned char green[] = { 49, 93, 16 };
     convert(datapoint);
     {
         std::lock_guard<std::mutex> lock(mutexes[(int)(datapoint.x / MUTEX_CNT)]);

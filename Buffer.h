@@ -7,6 +7,8 @@
 #include <chrono>
 #include <stdexcept>
 
+#define PACKET_SIZE 100
+
 /*
  * FiFo Buffer
  */
@@ -22,10 +24,10 @@ template <class T> class Buffer
     public:
      Buffer(size_t capacity=10000); // Constructor with max capacity
      ~Buffer();                     // Destructor
-     void push(T elem);                    // Push single element
-     void push_batch(T elem[], size_t size);    // Push multiple elements
-     T pop();                       // Pop single element
-     T *pop_batch(size_t size);                       // Pop single element
+     void push(T elem);                          // Push single element
+     void push_batch(T batch[], size_t size);    // Push multiple elements
+     T pop();                                    // Pop single element
+     void pop_batch(T *batch, size_t size);      // Pop multiple elements
 };
 
 #endif

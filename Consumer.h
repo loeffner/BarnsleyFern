@@ -5,6 +5,7 @@
 #include "Worker.h"
 #include "Buffer.h"
 
+
 /*
  * Producer kuemmert sich um das Verarbeiten der erzeugten Daten.
  * Die eigentliche Berechnung der Daten findet in FernProducer statt.

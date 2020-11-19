@@ -1,33 +1,28 @@
-#include <iostream>
 #include "Consumer.h"
+#include <iostream>
 
-/*
- * Constructor
- */
+/* Constructor */
 template <class T> Consumer<T>::Consumer(Buffer<T>& buffer)
  : m_buffer(buffer), Worker()
 { }
 
-/*
- * Destructor
- */
+/* Destructor */
 template <class T> Consumer<T>::~Consumer(void){};
 
-/* 
- * Warten auf einen Datenpunkt und verarbeiten
- */
+/* Warten auf einen Datenpunkt und verarbeiten */
 template <class T> bool Consumer<T>::step()
 {
-    bool done;
-    T datapoint;
+    bool running;
+    T batch[PACKET_SIZE];
     try
     {
-        datapoint = m_buffer.pop();
-        done = consume(datapoint);
+        m_buffer.pop_batch(batch, PACKET_SIZE);
+        for(int i=0; i < PACKET_SIZE; i++)
+            running = consume(batch[i]);
     }
     catch(const std::runtime_error& e)
     {
-        done = false;
+        running = false;
     }
-    return done;
+    return running;
 }

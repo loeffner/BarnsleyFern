@@ -10,9 +10,9 @@
 class Worker {
     public:
      Worker();                      // Constructor
-     virtual ~Worker();         // Constructor
+     virtual ~Worker();             // Constructor
      void start();                  // Starten des Threads
-     void stop(bool);         // Vorzeitiges terminieren des Thread
+     void stop(bool);               // Vorzeitiges terminieren des Thread
     protected:                      
      virtual bool step() = 0;       // Rueckgabewert gibt an, ob der Thread beendet werden soll
     private:

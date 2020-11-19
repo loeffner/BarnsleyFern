@@ -1,39 +1,28 @@
-#include <iostream>
 #include "Worker.h"
+#include <iostream>
 
-/*
- * Constructor
- */
+/* Constructor */
 Worker::Worker() : m_terminate(false), m_running(false)
 { }
 
-/*
- * Destructor
- */
+/* Destructor */
 Worker::~Worker()
 {
     stop(false);
 };
 
-/*
- * Starten des Threads
- */
+/* Starten des Threads */
 void Worker::start()
 {
     if(m_running == false)
     {
-        // std::cout << "Worker start" << std::endl;
         m_thread = new std::thread(&Worker::work, this);
         m_running = true;
-        // std::cout << "Worker started 1" << std::endl;
     }
 
-    // std::cout << "Worker started 2" << std::endl;
 }
 
-/*
- * Stoppen des Threads
- */
+/* Stoppen des Threads */
 void Worker::stop(bool force)
 {
     m_terminate = force;
@@ -43,22 +32,12 @@ void Worker::stop(bool force)
     }
 }
 
-/*
- * Schleife die wiederholt step aufruft
- */
+/* Schleife die wiederholt step aufruft */
 void Worker::work()
 {
-    // std::cout << "Worker work" << std::endl;
     while(m_running && !m_terminate)
     {
 
-        // std::cout << "WOrker step" << std::endl;
         m_running = step();
     }
 }
-
-// bool Worker::step()
-// {
-//     std::cout << "Worker step" << std::endl;
-//     return true;
-// }
