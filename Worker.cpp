@@ -1,5 +1,4 @@
 #include "Worker.h"
-#include <iostream>
 
 /* Constructor */
 Worker::Worker() : m_terminate(false), m_running(false)
@@ -8,7 +7,7 @@ Worker::Worker() : m_terminate(false), m_running(false)
 /* Destructor */
 Worker::~Worker()
 {
-    stop(false);
+    stop(true);
 };
 
 /* Starten des Threads */

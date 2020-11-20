@@ -1,20 +1,22 @@
 #include <iostream>
 #include "FernConsumer.h"
 
-cimg_library::CImg<unsigned char> FernConsumer::m_image(WIDTH, HEIGHT, 1, 3);
+cimg_library::CImg<unsigned char> FernConsumer::m_image(IMG_WIDTH, IMG_HEIGHT, 1, 3);
 bool FernConsumer::saved = false;
 
-std::mutex FernConsumer::mutexes[MUTEX_CNT];
+std::mutex FernConsumer::mutexes[IMG_MUTEX_CNT];
 std::mutex FernConsumer::save_mutex;
 
 /*
  * Constructor
  */
-FernConsumer::FernConsumer(Buffer<Point>& buffer) :  Consumer(buffer)
+FernConsumer::FernConsumer(Buffer<Point>& buffer, size_t batch_size)
+ : Consumer(buffer, batch_size)
 { 
-    m_x_step = (X_MAX - X_MIN) / WIDTH;
+    // Precalculating for conversion from datapoint to pixel-coordinates
+    m_x_step = (X_MAX - X_MIN) / IMG_WIDTH;
     m_x_offset = X_MIN / m_x_step;
-    m_y_step = (Y_MAX - Y_MIN) / HEIGHT;
+    m_y_step = (Y_MAX - Y_MIN) / IMG_HEIGHT;
     m_y_offset = Y_MIN / m_y_step;
 }
 
@@ -34,12 +36,13 @@ FernConsumer::~FernConsumer()
     }
     stop(false);
 }
-/* Generieren der Punkte */
+
+/* Generate points  */
 bool FernConsumer::consume(Point& datapoint)
 {
     convert(datapoint);
     {
-        std::lock_guard<std::mutex> lock(mutexes[(int)(datapoint.x / MUTEX_CNT)]);
+        std::lock_guard<std::mutex> lock(mutexes[(int)(datapoint.y / IMG_MUTEX_CNT)]);
         if(m_image((int)datapoint.x, (int)datapoint.y, 0, 1) < 255)
         {
             m_image((int)datapoint.x, (int)datapoint.y, 0, 1)++;
@@ -48,8 +51,9 @@ bool FernConsumer::consume(Point& datapoint)
     return true;     
 }
 
+/* Convert a datapoint to pixel-coordinates */
 void FernConsumer::convert(Point& datapoint)
 {
     datapoint.x = datapoint.x / m_x_step - m_x_offset;
-    datapoint.y = HEIGHT - datapoint.y / m_y_step - m_y_offset;
+    datapoint.y = IMG_HEIGHT - datapoint.y / m_y_step - m_y_offset;
 }

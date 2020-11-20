@@ -5,19 +5,19 @@
 #include "Buffer.h"
 
 /*
- * Producer kuemmert sich um das Verarbeiten der erzeugten Daten.
- * Die eigentliche Berechnung der Daten findet in FernProducer statt.
+ * Producing and pushing datapoint
  */
-template <class T> class Producer : public Worker // Template Klasse zur Unterstuetzung unterschiedlicher Datenpunkte
+template <class T> class Producer : public Worker
 {
     public:
-     Producer(Buffer<T>& buffer);               // Constructor
-     ~Producer();                               // Destructor
+     Producer(Buffer<T>& buffer, size_t batch_size);    // Constructor
+     ~Producer();                                       // Destructor
     protected:
-     virtual bool produce(T& datapoint) = 0;    // Hier werden in der Kindklasse die eigentlichen Daten produziert
-     virtual bool step();                       // Hier wird der Datenpunkt an den Buffer uebergeben
+     virtual bool produce(T& datapoint) = 0;    // Generate a new datapoint
+     virtual bool step();                       // Generate a new datapoint and push into buffer
     private:
-     Buffer<T>& m_buffer;                        // Ein geeigneter Buffer
+     Buffer<T>& m_buffer;                        // FiFo Buffer
+     size_t m_batch_size;
 };
 
 #endif

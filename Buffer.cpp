@@ -1,8 +1,8 @@
-#include <iostream>
 #include "Buffer.h"
 
 /* Constructor */
-template <class T> Buffer<T>::Buffer(size_t capacity) : m_capacity(capacity), m_size(0)
+template <class T> Buffer<T>::Buffer(size_t capacity)
+ : m_capacity(capacity), m_size(0)
 { }
 
 /* Destructor */

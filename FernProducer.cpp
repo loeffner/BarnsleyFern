@@ -14,14 +14,11 @@ const float FernProducer::m_params[4][6] =
 const std::vector<unsigned int> FernProducer::m_prob = {1,   85,  7,  7};
 
 
-std::atomic<unsigned int> FernProducer::m_nr_points(0);
-
-
 /*
  * Constructor
  */
-FernProducer::FernProducer(Buffer<Point>& buffer)
- :  Producer(buffer),  m_current({0.0, 0.0})
+FernProducer::FernProducer(Buffer<Point>& buffer, size_t max_points, size_t batch_size)
+ :  Producer(buffer, batch_size), m_max_points(max_points), m_current({0.0, 0.0})
 { 
     dist = std::discrete_distribution<unsigned int>({1,   85,  7,  7});
 }
@@ -50,7 +47,5 @@ bool FernProducer::produce(Point& datapoint)
     
     m_nr_points++;
     
-    if(m_nr_points%1000000 == 0) std::cout << m_nr_points << std::endl;
-    
-    return m_nr_points < MAX_POINTS;
+    return m_nr_points < m_max_points;
 }

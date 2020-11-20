@@ -7,19 +7,19 @@
 
 
 /*
- * Producer kuemmert sich um das Verarbeiten der erzeugten Daten.
- * Die eigentliche Berechnung der Daten findet in FernProducer statt.
+ * Producer produces data and pushes into buffer
  */
-template <class T> class Consumer : public Worker // Template Klasse zur Unterstuetzung unterschiedlicher Datenpunkte
+template <class T> class Consumer : public Worker
 {
     public:
-     Consumer(Buffer<T>& buffer);               // Constructor
-     ~Consumer();                               // Destructor
+     Consumer(Buffer<T>& buffer, size_t batch_size);    // Constructor
+     ~Consumer();                                       // Destructor
     protected:
-     virtual bool consume(T& datapoint) = 0;        // Hier werden in der Kindklasse die eigentlichen Daten produziert
-     virtual bool step();                       // Hier wird der Datenpunkt an den Buffer uebergeben
+     virtual bool consume(T& datapoint) = 0;    // Consume datapoints
+     virtual bool step();                       // A step consists of producing a datapoint and pushing into the buffer
     private:
-     Buffer<T>& m_buffer;                       // Ein geeigneter Buffer
+     Buffer<T>& m_buffer;           // FiFo Buffer
+     size_t m_batch_size;           // Nr of points to consume at a time
 };
 
 #endif

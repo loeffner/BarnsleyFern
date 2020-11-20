@@ -8,20 +8,19 @@
 #include "FernProducer.cpp"
 #include "FernConsumer.h"
 #include "FernConsumer.cpp"
+#include "config.h"
 
-#define NR_PRODUCER 6
-#define NR_CONSUMER 4
 
 int main(void)
 {
     // FiFo Buffer
-    Buffer<Point> buffer(10000);
+    Buffer<Point> buffer(BUFFER_SIZE);
 
     // All our Producers
     std::vector<FernProducer*> producers;
     for (int i=0; i < NR_PRODUCER; ++i)
     {
-        FernProducer *p = new FernProducer(buffer);
+        FernProducer *p = new FernProducer(buffer, NR_POINTS, PRODUCER_BATCH_SIZE);
         producers.push_back(p);
     }
 
@@ -29,7 +28,7 @@ int main(void)
     std::vector<FernConsumer*> consumers;
     for (int i=0; i < NR_CONSUMER; ++i)
     {
-        FernConsumer *c = new FernConsumer(buffer);
+        FernConsumer *c = new FernConsumer(buffer, CONSUMER_BATCH_SIZE);
         consumers.push_back(c);
     }
 
@@ -39,6 +38,13 @@ int main(void)
 
     // Start consuming
     for (auto &c : consumers) c->start();
+
+
+    // Wait for producer threads to finish
+    for (auto &p : producers) p->stop(false);
+
+    // Wait for consumer threads to finish
+    for (auto &c : consumers) c->stop(false);
 
 
     // Clean up producers

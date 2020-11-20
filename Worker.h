@@ -4,22 +4,21 @@
 #include <thread>
 
 /*
- * Basisklasse Worker: kuemmert sich um das Starten, 
- * Stoppen und regelmaessige Aufrufen einer Funktion
+ * Baseclass Worker: Handling of the thread
  */
 class Worker {
     public:
      Worker();                      // Constructor
      virtual ~Worker();             // Constructor
-     void start();                  // Starten des Threads
-     void stop(bool);               // Vorzeitiges terminieren des Thread
+     void start();                  // Start the thread
+     void stop(bool force);         // Stop the thread (force=true -> hard stop, force=false -> let thread finish on it's own)
     protected:                      
-     virtual bool step() = 0;       // Rueckgabewert gibt an, ob der Thread beendet werden soll
+     virtual bool step() = 0;       // Pure virtual step function
     private:
-     std::thread *m_thread;         // Speichert den Thread
-     bool m_terminate;              // Soll Thread beendet werden?
-     bool m_running;                // Laeuft Thread?
-     void work();                   // Schleife die wiederholt step() aufruft
+     std::thread *m_thread;         // The thread
+     bool m_terminate;              // Terminate thread?
+     bool m_running;                // Thread running?
+     void work();                   // Thread loop (repeatedly calling step)
 };
 
 #endif
