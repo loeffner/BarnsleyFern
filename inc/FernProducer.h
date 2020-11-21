@@ -4,8 +4,9 @@
 #include <random>
 #include <map>
 #include <vector>
-#include "Producer.h"
-#include "Point.h"
+#include "CImg.h"
+#include "procon.h"
+#include "config.h"
 
 
 /*

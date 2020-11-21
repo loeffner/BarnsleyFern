@@ -7,9 +7,7 @@
 
 #include <mutex>
 #include "CImg.h"
-#include "Consumer.h"
-#include "Point.h"
-#include "Buffer.h"
+#include "procon.h"
 #include "config.h"
 
 

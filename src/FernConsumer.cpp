@@ -42,7 +42,7 @@ bool FernConsumer::consume(Point& datapoint)
 {
     convert(datapoint);
     {
-        std::lock_guard<std::mutex> lock(mutexes[(int)(datapoint.y / IMG_MUTEX_CNT)]);
+        std::lock_guard<std::mutex> lock(mutexes[(int)(datapoint.y * IMG_MUTEX_CNT / IMG_HEIGHT)]);
         if(m_image((int)datapoint.x, (int)datapoint.y, 0, 1) < 255)
         {
             m_image((int)datapoint.x, (int)datapoint.y, 0, 1)++;
