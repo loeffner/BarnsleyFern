@@ -12,10 +12,10 @@
 
 #define IMG_PATH "Fern.png"     // Path of image
 
-#define IMG_MUTEX_CNT 100       // Image is separated into a grid, each mutex safes a row
-#define NR_POINTS 100000000     // Nr of points per producer
-#define IMG_WIDTH 10000         // Image width
-#define IMG_HEIGHT 20000        // Image height
+#define IMG_MUTEX_CNT 100      // Image is separated into a grid, each mutex safes a row
+#define NR_POINTS 1000000    // Nr of points per producer
+#define IMG_WIDTH 1000        // Image width
+#define IMG_HEIGHT 2000       // Image height
 
 // Data window
 #define X_MIN -2.2               

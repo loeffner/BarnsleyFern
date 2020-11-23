@@ -8,6 +8,7 @@
 #include <mutex>
 #include "CImg.h"
 #include "procon.h"
+#include "Point.h"
 #include "config.h"
 
 
@@ -25,8 +26,6 @@ class FernConsumer: public Consumer<Point> {
      static std::mutex save_mutex;
      static cimg_library::CImg<unsigned char> m_image;     
      static bool saved;
-
-     double m_x_step, m_y_step, m_x_offset, m_y_offset;
 
      bool consume(Point& datapoint);
      void convert(Point& datapoint);

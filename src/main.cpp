@@ -1,8 +1,6 @@
 #include "procon.h"
 #include "FernProducer.h"
-#include "FernProducer.cpp"
 #include "FernConsumer.h"
-#include "FernConsumer.cpp"
 #include "config.h"
 
 
@@ -15,7 +13,7 @@ int main(void)
     std::vector<FernProducer*> producers;
     for (int i=0; i < NR_PRODUCER; ++i)
     {
-        FernProducer *p = new FernProducer(buffer, NR_POINTS, PRODUCER_BATCH_SIZE);
+        FernProducer *p = new FernProducer(buffer, NR_POINTS, PRODUCER_BATCH_SIZE, i);
         producers.push_back(p);
     }
 
@@ -47,6 +45,7 @@ int main(void)
 
     // Clean up consumers
     for (auto &c : consumers) delete c;
+
 
     return 0;
 }

@@ -1,5 +1,5 @@
-#include <iostream>
 #include "FernConsumer.h"
+#include <iostream>
 
 cimg_library::CImg<unsigned char> FernConsumer::m_image(IMG_WIDTH, IMG_HEIGHT, 1, 3);
 bool FernConsumer::saved = false;
@@ -12,13 +12,7 @@ std::mutex FernConsumer::save_mutex;
  */
 FernConsumer::FernConsumer(Buffer<Point>& buffer, size_t batch_size)
  : Consumer(buffer, batch_size)
-{ 
-    // Precalculating for conversion from datapoint to pixel-coordinates
-    m_x_step = (X_MAX - X_MIN) / IMG_WIDTH;
-    m_x_offset = X_MIN / m_x_step;
-    m_y_step = (Y_MAX - Y_MIN) / IMG_HEIGHT;
-    m_y_offset = Y_MIN / m_y_step;
-}
+{ }
 
 /*
  * Destructor
@@ -34,7 +28,7 @@ FernConsumer::~FernConsumer()
             saved = true;
         }
     }
-    stop(false);
+    stop(true);
 }
 
 /* Generate points  */
@@ -54,6 +48,6 @@ bool FernConsumer::consume(Point& datapoint)
 /* Convert a datapoint to pixel-coordinates */
 void FernConsumer::convert(Point& datapoint)
 {
-    datapoint.x = datapoint.x / m_x_step - m_x_offset;
-    datapoint.y = IMG_HEIGHT - datapoint.y / m_y_step - m_y_offset;
+    datapoint.x = datapoint.x * IMG_WIDTH / (X_MAX - X_MIN) - X_MIN * IMG_WIDTH / (X_MAX - X_MIN) ;
+    datapoint.y = IMG_HEIGHT  - datapoint.y * IMG_HEIGHT / (Y_MAX - Y_MIN) - Y_MIN * IMG_HEIGHT / (Y_MAX - Y_MIN) ;
 }
