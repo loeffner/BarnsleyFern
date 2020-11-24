@@ -17,8 +17,8 @@ const std::vector<unsigned int> FernProducer::m_prob = {1,   85,  7,  7};
 /*
  * Constructor
  */
-FernProducer::FernProducer(Buffer<Point>& buffer, size_t max_points, size_t batch_size, size_t id)
- :  Producer(buffer, batch_size), m_max_points(max_points), m_id(id), m_current({0.0, 0.0})
+FernProducer::FernProducer(Buffer<Point>& buffer, size_t points, size_t id)
+ :  Producer(buffer), m_max_points(points), m_id(id), m_current({0.0, 0.0})
 { 
     dist = std::discrete_distribution<unsigned int>({0.01,   0.85,  0.07,  0.07});
 }
@@ -47,16 +47,18 @@ bool FernProducer::produce(Point& datapoint)
     
     m_nr_points++;
 
-    if(m_nr_points == 1 * m_max_points / 10) std::cout << "Thread " << m_id << " 10%" << std::endl;
-    else if(m_nr_points == 2 * m_max_points / 10) std::cout << "Thread " << m_id << " 20%" << std::endl;
-    else if(m_nr_points == 3 * m_max_points / 10) std::cout << "Thread " << m_id << " 30%" << std::endl;
-    else if(m_nr_points == 4 * m_max_points / 10) std::cout << "Thread " << m_id << " 40%" << std::endl;
-    else if(m_nr_points == 5 * m_max_points / 10) std::cout << "Thread " << m_id << " 50%" << std::endl;
-    else if(m_nr_points == 6 * m_max_points / 10) std::cout << "Thread " << m_id << " 60%" << std::endl;
-    else if(m_nr_points == 7 * m_max_points / 10) std::cout << "Thread " << m_id << " 70%" << std::endl;
-    else if(m_nr_points == 8 * m_max_points / 10) std::cout << "Thread " << m_id << " 80%" << std::endl;
-    else if(m_nr_points == 9 * m_max_points / 10) std::cout << "Thread " << m_id << " 90%" << std::endl;
-    else if(m_nr_points == m_max_points) std::cout << "Thread " << m_id << " finished" << std::endl;
-    
+    if(!m_id)
+    {
+        if(m_nr_points == 1 * m_max_points / 10) std::cout << " 10%" << std::endl;
+        else if(m_nr_points == 2 * m_max_points / 10) std::cout << " 20%" << std::endl;
+        else if(m_nr_points == 3 * m_max_points / 10) std::cout << " 30%" << std::endl;
+        else if(m_nr_points == 4 * m_max_points / 10) std::cout << " 40%" << std::endl;
+        else if(m_nr_points == 5 * m_max_points / 10) std::cout << " 50%" << std::endl;
+        else if(m_nr_points == 6 * m_max_points / 10) std::cout << " 60%" << std::endl;
+        else if(m_nr_points == 7 * m_max_points / 10) std::cout << " 70%" << std::endl;
+        else if(m_nr_points == 8 * m_max_points / 10) std::cout << " 80%" << std::endl;
+        else if(m_nr_points == 9 * m_max_points / 10) std::cout << " 90%" << std::endl;
+        else if(m_nr_points == m_max_points) std::cout << " finished" << std::endl;
+    }
     return m_nr_points < m_max_points;
 }

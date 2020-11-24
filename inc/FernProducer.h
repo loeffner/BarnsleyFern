@@ -14,7 +14,7 @@
 class FernProducer : public Producer<Point>
 {
     public:
-     FernProducer(Buffer<Point>& buffer, size_t max_points, size_t batch_size, size_t id);
+     FernProducer(Buffer<Point>& buffer, size_t points, size_t id);
      ~FernProducer();
     private:
      Point m_current;

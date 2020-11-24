@@ -18,7 +18,7 @@
  */
 class FernConsumer: public Consumer<Point> {
     public:
-     FernConsumer(Buffer<Point>& buffer, size_t batch_size);
+     FernConsumer(Buffer<Point>& buffer);
      ~FernConsumer();
      void save();
     private:

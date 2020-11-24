@@ -13,7 +13,7 @@ int main(void)
     std::vector<FernProducer*> producers;
     for (int i=0; i < NR_PRODUCER; ++i)
     {
-        FernProducer *p = new FernProducer(buffer, NR_POINTS, PRODUCER_BATCH_SIZE, i);
+        FernProducer *p = new FernProducer(buffer, NR_POINTS, i);
         producers.push_back(p);
     }
 
@@ -21,7 +21,7 @@ int main(void)
     std::vector<FernConsumer*> consumers;
     for (int i=0; i < NR_CONSUMER; ++i)
     {
-        FernConsumer *c = new FernConsumer(buffer, CONSUMER_BATCH_SIZE);
+        FernConsumer *c = new FernConsumer(buffer);
         consumers.push_back(c);
     }
 

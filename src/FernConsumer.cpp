@@ -10,8 +10,8 @@ std::mutex FernConsumer::save_mutex;
 /*
  * Constructor
  */
-FernConsumer::FernConsumer(Buffer<Point>& buffer, size_t batch_size)
- : Consumer(buffer, batch_size)
+FernConsumer::FernConsumer(Buffer<Point>& buffer)
+ : Consumer(buffer)
 { }
 
 /*
